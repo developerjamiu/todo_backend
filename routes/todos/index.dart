@@ -28,10 +28,10 @@ Future<Response> _addTodo(RequestContext context) async {
   final body = await context.request.json() as Map<String, dynamic>;
 
   try {
-    final id = await todoRepo.addTodo(body);
+    final todo = await todoRepo.addTodo(body);
 
     return Response.json(
-      body: {'id': id},
+      body: todo,
     );
   } on AppException catch (e) {
     return Response.json(

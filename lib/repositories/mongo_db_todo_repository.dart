@@ -20,7 +20,8 @@ const collectionName = 'todos';
 /// final todos = await todoRepository.getAllTodos();
 /// ```
 class MongoDBTodoRepository implements TodoRepository {
-  /// Creates an instance of [MongoDBTodoRepository] with the given [Db] instance.
+  /// Creates an instance of [MongoDBTodoRepository] with the given [Db]
+  /// instance.
   ///
   /// The [db] parameter is required and is used to initialize the private
   /// database field [_db].
@@ -34,38 +35,11 @@ class MongoDBTodoRepository implements TodoRepository {
 
   final Db _db;
 
-  /// Fetches a list of todos from the repository.
-  ///
-  /// Returns a [Future] that completes with a list of maps, where each map
-  /// represents a todo item with its properties as key-value pairs.
-  ///
-  /// Example:
-  /// ```dart
-  /// List<Map<String, dynamic>> todos = await getTodos();
-  /// ```
-  ///
-  /// Throws an exception if there is an error during the fetch operation.
   @override
   Future<List<Map<String, dynamic>>> getTodos() async {
     return _db.collection(collectionName).find().toList();
   }
 
-  /// Adds a new todo item to the repository.
-  ///
-  /// Takes a [Map] containing the details of the todo item as a parameter.
-  ///
-  /// Returns a [Future] that completes with a [Map] containing the details of
-  /// the added todo item.
-  ///
-  /// Example:
-  /// ```dart
-  /// Map<String, dynamic> newTodo = {
-  ///   'title': 'Buy groceries',
-  ///   'description': 'Milk, Bread, Eggs',
-  /// };
-  ///
-  /// Map<String, dynamic> addedTodo = await addTodo(newTodo);
-  /// ```
   @override
   Future<Map<String, dynamic>> addTodo(Map<String, dynamic> body) async {
     final name = body['name'] as String?;
@@ -93,11 +67,6 @@ class MongoDBTodoRepository implements TodoRepository {
     return document;
   }
 
-  /// Retrieves a todo item by its unique identifier.
-  ///
-  /// This method fetches a todo item from the repository using the provided
-  /// [id]. It returns a `Future` that resolves to a `Map<String, dynamic>`
-  /// containing the todo item's details.
   @override
   Future<Map<String, dynamic>> getTodoById(String id) async {
     try {
@@ -112,14 +81,6 @@ class MongoDBTodoRepository implements TodoRepository {
     }
   }
 
-  /// Updates a todo item with the given [id] using the provided [body].
-  ///
-  /// The [id] parameter specifies the unique identifier of the todo item to be
-  /// updated.
-  /// The [body] parameter is a map containing the fields and values to be
-  /// updated.
-  ///
-  /// Throws an [Exception] if the update operation fails.
   @override
   Future<void> updateTodo(String id, Map<String, dynamic> body) async {
     try {
@@ -141,12 +102,6 @@ class MongoDBTodoRepository implements TodoRepository {
     }
   }
 
-  /// Deletes a todo item by its unique identifier.
-  ///
-  /// This method takes the [id] of the todo item to be deleted and performs
-  /// the necessary operations to remove it from the data source.
-  ///
-  /// [id]: The unique identifier of the todo item to be deleted.
   @override
   Future<void> deleteTodo(String id) async {
     await _db
