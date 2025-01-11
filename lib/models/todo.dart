@@ -43,7 +43,7 @@ class Todo {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'description': description,
+      if (description != null) 'description': description,
       'isCompleted': isCompleted,
     };
   }

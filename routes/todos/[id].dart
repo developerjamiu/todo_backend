@@ -18,7 +18,7 @@ Future<Response> onRequest(
 
 Future<Response> _getTodoById(RequestContext context, String id) async {
   try {
-    final todo = await context.read<TodoRepository>().getTodo(id);
+    final todo = await context.read<TodoRepository>().getTodoById(id);
 
     return Response.json(
       body: todo,
