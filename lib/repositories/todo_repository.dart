@@ -39,11 +39,11 @@ abstract class TodoRepository {
   ///
   /// This method returns a [Future] that completes when the update operation is
   /// finished.
-  Future<void> updateTodo(String id, Map<String, dynamic> body);
+  Future<Map<String, dynamic>> updateTodo(String id, Map<String, dynamic> body);
 
   /// Deletes a todo item by its unique identifier.
   ///
   /// This method removes the todo item associated with the given [id]
   /// from the repository.
-  Future<void> deleteTodo(String id);
+  Future<String> deleteTodo(String id);
 }

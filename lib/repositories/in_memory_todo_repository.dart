@@ -61,7 +61,10 @@ class InMemoryTodoRepository implements TodoRepository {
   }
 
   @override
-  Future<void> updateTodo(String id, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> updateTodo(
+    String id,
+    Map<String, dynamic> body,
+  ) async {
     final name = body['name'] as String?;
     final description = body['description'] as String?;
     final isCompleted = body['isCompleted'] as bool?;
@@ -78,18 +81,24 @@ class InMemoryTodoRepository implements TodoRepository {
       isCompleted: isCompleted ?? existingTodo['isCompleted'] as bool,
     );
 
-    _todos[index] = {
+    final todo = {
       'id': id,
       ...updatedTodo.toMap(),
     };
+
+    _todos[index] = todo;
+
+    return todo;
   }
 
   @override
-  Future<void> deleteTodo(String id) async {
+  Future<String> deleteTodo(String id) async {
     final index = _todos.indexWhere((todo) => todo['id'] == id);
 
     if (index == -1) throw AppException('Todo not found');
 
     _todos.removeAt(index);
+
+    return id;
   }
 }

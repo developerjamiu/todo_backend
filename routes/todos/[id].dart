@@ -34,13 +34,19 @@ Future<Response> _getTodoById(RequestContext context, String id) async {
 Future<Response> _updateTodo(RequestContext context, String id) async {
   final body = await context.request.json() as Map<String, dynamic>;
 
-  await context.read<TodoRepository>().updateTodo(id, body);
+  final todo = await context.read<TodoRepository>().updateTodo(id, body);
 
-  return Response(statusCode: HttpStatus.noContent);
+  return Response.json(
+    body: todo,
+  );
 }
 
 Future<Response> _deleteTodo(RequestContext context, String id) async {
   await context.read<TodoRepository>().deleteTodo(id);
 
-  return Response(statusCode: HttpStatus.noContent);
+  return Response.json(
+    body: {
+      'message': 'Todo item with id $id has been deleted.',
+    },
+  );
 }

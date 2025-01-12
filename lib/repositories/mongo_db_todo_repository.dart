@@ -82,7 +82,10 @@ class MongoDBTodoRepository implements TodoRepository {
   }
 
   @override
-  Future<void> updateTodo(String id, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> updateTodo(
+    String id,
+    Map<String, dynamic> body,
+  ) async {
     try {
       final name = body['name'] as String?;
       final description = body['description'] as String?;
@@ -93,19 +96,23 @@ class MongoDBTodoRepository implements TodoRepository {
       if (description != null) modifier.set('description', description);
       if (isCompleted != null) modifier.set('isCompleted', isCompleted);
 
-      await _db.collection(collectionName).update(
+      final todo = await _db.collection(collectionName).update(
             where.eq('_id', ObjectId.fromHexString(id)),
             modifier,
           );
+
+      return todo;
     } catch (e) {
       throw AppException('There was an error updating the todo.');
     }
   }
 
   @override
-  Future<void> deleteTodo(String id) async {
+  Future<String> deleteTodo(String id) async {
     await _db
         .collection(collectionName)
         .deleteOne(where.eq('_id', ObjectId.fromHexString(id)));
+
+    return id;
   }
 }
